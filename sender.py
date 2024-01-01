@@ -1,8 +1,8 @@
 import requests
 from time import sleep
 
-from manager import get_word
-from test import TOKEN
+from manager import run
+from eita_token import TOKEN
 
 
 
@@ -12,6 +12,7 @@ def get_me():
     return requests.get(api_url + '/getme').json()
     
 def send_message(chat_id, text):
+    print('s', text)
     params = {
         'chat_id': chat_id,
         'text': text,
@@ -26,8 +27,8 @@ def send_message(chat_id, text):
 
 
 while True:
-    send_message('9516430', get_word())
-    sleep(5)
+    send_message('9516430', run())
+    sleep(10)
 
 
 
