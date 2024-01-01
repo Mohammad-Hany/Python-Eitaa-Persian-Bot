@@ -1,5 +1,7 @@
+import os
 import redis
 from random import randint
+from dotenv import load_dotenv
 
 from vocabs import vocabs_information
 
@@ -36,8 +38,9 @@ def get_word():
 
 
 def run():
+    load_dotenv()
     global redis_client, word_data
-    redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+    redis_client = redis.StrictRedis(host=os.getenv("REDIS_HOST"), port=os.getenv("REDIS_PORT"), db=0)
     word_data = []
 
     # save_vocab()
