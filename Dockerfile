@@ -13,4 +13,4 @@ RUN pip install --no-cache-dir --upgrade pip && \
 
 COPY . .
 
-CMD [ "python", "sender.py"]
+CMD [ "sh", "-c", "python save.py && python sender.py" ]
