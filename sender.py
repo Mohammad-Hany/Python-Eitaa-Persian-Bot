@@ -1,5 +1,4 @@
 import requests
-# import schedule
 import os
 
 from time import sleep
@@ -25,15 +24,13 @@ def send_message(chat_id, text):
 
 
 while True:
-    target_time = time(12, 27)
+    target_time = time(2, 30)
     current_time = datetime.now().time()
 
-    print("Current Time: ", current_time)
-    if (current_time >= target_time and current_time <= target_time.replace(second=1)):
-        print(run)
+    if (current_time >= target_time and current_time <= target_time.replace(second=3)):
         for item in run():
             word, definition, gride, no = item[0], item[1], item[2], item[3]
-            send_message('9516430', f'{word}: {definition}\n#{gride}     {no}')
+            send_message('9516430', f'{word}: {definition}\n{gride}#     {no}')
 
             print('   ', f'{word}: {definition} --- #{gride} --- {no}')
 
