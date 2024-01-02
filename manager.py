@@ -21,7 +21,8 @@ def load_vocab():
 # Management Words
 def get_word():
     """ Find a random word """
-    while True:
+    result = []
+    while len(result) < 3:
         data = word_data[randint(0, len(word_data)-1)]
         word, definition, gride, is_send = data[0], data[1], data[2], data[3]
 
@@ -31,13 +32,11 @@ def get_word():
             number_sent = int(redis_client.get('number_sent').decode('utf8')) + 1
             redis_client.set("number_sent", number_sent)
 
-            keys_size = f'{number_sent}/{redis_client.dbsize() - 1}'
-
-            print('   ', f'{word.decode("utf-8")}: {definition} --- #{gride} --- {keys_size}')
+            no = f'{number_sent}/{redis_client.dbsize() - 1}'
             
-            return f'{word.decode("utf-8")}: {definition}\n#{gride}     {keys_size}'
+            result.append((word.decode("utf-8"), definition, gride, no))
 
-        print('   Word is already')
+    return result
 
 
 def run():
@@ -48,8 +47,6 @@ def run():
     redis_client = redis.StrictRedis(host=os.getenv("REDIS_HOST"), port=os.getenv("REDIS_PORT"), password=os.getenv("REDIS_PASSWORD"), db=0)
 
     word_data = []
-
-    # save_vocab()
 
     load_vocab()
     return get_word()

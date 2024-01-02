@@ -1,9 +1,10 @@
 import requests
-import schedule
+# import schedule
 import os
 
 from time import sleep
 from dotenv import load_dotenv
+from datetime import datetime, time
 
 from manager import run
 
@@ -19,24 +20,24 @@ def send_message(chat_id, text):
     params = {
         'chat_id': chat_id,
         'text': text,
-        # 'title': title,
-        # 'notification_disable': notification_disable,
-        # 'id_message_to_reply': id_message_to_reply,
-        # 'date': date,
-        # 'pin': pin,
-        # 'viewCountForDelete': viewCountForDelete,
     }
     return requests.post(api_url + "/sendMessage", data=params).json()
 
-def job():
-    send_message('9516430', run())
-
-
-schedule.every().day.at("06:00").do(job) 
-schedule.every().day.at("12:00").do(job)
-schedule.every().day.at("15:00").do(job)
-
 
 while True:
-    schedule.run_pending()
+    target_time = time(12, 27)
+    current_time = datetime.now().time()
+
+    print("Current Time: ", current_time)
+    if (current_time >= target_time and current_time <= target_time.replace(second=1)):
+        print(run)
+        for item in run():
+            word, definition, gride, no = item[0], item[1], item[2], item[3]
+            send_message('9516430', f'{word}: {definition}\n#{gride}     {no}')
+
+            print('   ', f'{word}: {definition} --- #{gride} --- {no}')
+
+    
+
+    print("Waiting....")
     sleep(1)
